@@ -2,19 +2,49 @@ const express = require('express');
 const router = express.Router();
 const Course = require('../models/Course');
 
+// GET all courses from db
 router.get('/', async (req, res) => {
   try {
     const courses = await Course.find();
-    console.log('Successful query of loading all courses from database!');
+    console.log('Successfully queried all courses from database!');
     res.statusCode = 200;
     return res.json(courses);
   } catch (err) {
-    console.log('Error has occurred ->', err);
+    console.log(
+      `
+    **************************
+    *     ERROR OCCURRED     *
+    **************************\n`,
+      err
+    );
     res.statusCode = 400;
     return res.json({ message: err });
   }
 });
 
+// GET a specific course based on unique course id from db
+router.get('/:courseId', async (req, res) => {
+  const courseId = req.params.courseId;
+
+  try {
+    const course = await Course.findById(courseId);
+    console.log(`The query of course id <${courseId} was successful!`);
+    res.statusCode = 200;
+    return res.json(course);
+  } catch (err) {
+    console.log(
+      `
+    **************************
+    *     ERROR OCCURRED     *
+    **************************\n`,
+      err
+    );
+    res.statusCode = 400;
+    return res.json({ message: err });
+  }
+});
+
+// Creates a new post into db
 router.post('/', async (req, res) => {
   const course = new Course({
     title: req.body.title,
@@ -31,7 +61,13 @@ router.post('/', async (req, res) => {
     res.statusCode = 201;
     return res.json(data);
   } catch (err) {
-    console.log('Error has occurred ->', err);
+    console.log(
+      `
+    **************************
+    *     ERROR OCCURRED     *
+    **************************\n`,
+      err
+    );
     res.statusCode = 400;
     return res.json({ message: err });
   }

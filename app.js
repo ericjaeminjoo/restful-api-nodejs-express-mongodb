@@ -26,7 +26,13 @@ mongoose
     console.log('Press CTRL + C to stop the process.');
   })
   .catch((err) => {
-    console.error('Error has occurred ->', err.message);
+    console.log(
+      `
+    **************************
+    *     ERROR OCCURRED     *
+    **************************\n`,
+      err
+    );
     process.exit(1);
   });
 
