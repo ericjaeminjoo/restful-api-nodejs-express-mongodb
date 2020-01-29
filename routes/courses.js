@@ -2,8 +2,17 @@ const express = require('express');
 const router = express.Router();
 const Course = require('../models/Course');
 
-router.get('/', (req, res) => {
-  res.send('You have wandered upon the courses page!');
+router.get('/', async (req, res) => {
+  try {
+    const courses = await Course.find();
+    console.log('Successful query of loading all courses from database!');
+    res.statusCode = 200;
+    return res.json(courses);
+  } catch (err) {
+    console.log('Error has occurred ->', err);
+    res.statusCode = 400;
+    return res.json({ message: err });
+  }
 });
 
 router.post('/', async (req, res) => {
@@ -16,15 +25,15 @@ router.post('/', async (req, res) => {
     credits: req.body.credits
   });
 
-  const savedCourse = await course.save();
-
   try {
+    const savedCourse = await course.save();
     console.log('New course data has been saved successfully!');
     res.statusCode = 201;
-    res.json(data);
+    return res.json(data);
   } catch (err) {
-    console.log('Error has occured ->', err);
+    console.log('Error has occurred ->', err);
     res.statusCode = 400;
+    return res.json({ message: err });
   }
 });
 
