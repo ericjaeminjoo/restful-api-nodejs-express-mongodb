@@ -12,9 +12,9 @@ router.get('/', async (req, res) => {
   } catch (err) {
     console.log(
       `
-    **************************
-    *     ERROR OCCURRED     *
-    **************************\n`,
+            *******************************************************************************
+            *     ERROR OCCURRED - COULD NOT QUERY ALL COURSES, CHECK OUT ERROR BELOW     *
+            *******************************************************************************\n`,
       err
     );
     res.statusCode = 400;
@@ -34,9 +34,9 @@ router.get('/:courseId', async (req, res) => {
   } catch (err) {
     console.log(
       `
-    **************************
-    *     ERROR OCCURRED     *
-    **************************\n`,
+            ***********************************************************************************
+            *     ERROR OCCURRED - COULD NOT QUERY SPECIFIC COURSE, CHECK OUT ERROR BELOW     *
+            ***********************************************************************************\n`,
       err
     );
     res.statusCode = 400;
@@ -59,13 +59,35 @@ router.post('/', async (req, res) => {
     const savedCourse = await course.save();
     console.log('New course data has been saved successfully!');
     res.statusCode = 201;
-    return res.json(data);
+    return res.json(savedCourse);
   } catch (err) {
     console.log(
       `
-    **************************
-    *     ERROR OCCURRED     *
-    **************************\n`,
+            ***************************************************************************
+            *     ERROR OCCURRED - COULD NOT CREATE COURSE, CHECK OUT ERROR BELOW     *
+            ***************************************************************************\n`,
+      err
+    );
+    res.statusCode = 400;
+    return res.json({ message: err });
+  }
+});
+
+// Deletes a specific course from db based on unique course id
+router.delete('/:courseId', async (req, res) => {
+  const courseId = req.params.courseId;
+
+  try {
+    const course = await Course.deleteOne({ _id: courseId });
+    console.log('Successfully deleted course from database!');
+    res.statusCode = 200;
+    return res.end();
+  } catch (err) {
+    console.log(
+      `
+          ***************************************************************************
+          *     ERROR OCCURRED - COULD NOT DELETE COURSE, CHECK OUT ERROR BELOW     *
+          ***************************************************************************\n`,
       err
     );
     res.statusCode = 400;
