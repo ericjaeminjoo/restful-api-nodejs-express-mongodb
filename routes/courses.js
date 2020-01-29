@@ -73,6 +73,41 @@ router.post('/', async (req, res) => {
   }
 });
 
+// Update an existing course from db based on unique course id
+router.patch('/:courseId', async (req, res) => {
+  const courseId = req.params.courseId;
+
+  try {
+    const updatedCourse = await Course.updateOne(
+      { _id: courseId },
+      {
+        $set: {
+          _id: `${courseId}`,
+          title: req.body.title,
+          short_name: req.body.short_name,
+          link: req.body.link,
+          faculty: req.body.faculty,
+          department: req.body.department,
+          credits: req.body.credits
+        }
+      }
+    );
+    console.log('Updated course data successfully!');
+    res.statusCode = 201;
+    return res.end();
+  } catch (err) {
+    console.log(
+      `
+            ***************************************************************************
+            *     ERROR OCCURRED - COULD NOT UPDATE COURSE, CHECK OUT ERROR BELOW     *
+            ***************************************************************************\n`,
+      err
+    );
+    res.statusCode = 400;
+    return res.json({ message: err });
+  }
+});
+
 // Deletes a specific course from db based on unique course id
 router.delete('/:courseId', async (req, res) => {
   const courseId = req.params.courseId;

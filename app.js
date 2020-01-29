@@ -7,6 +7,7 @@ const MONGODB_CONNECTION_STRING = process.env.MONGODB_CONNECTION_STRING;
 
 // Express Body Parser Middleware
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
 // Import routes
 const indexRouter = require('./routes/index');
