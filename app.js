@@ -5,6 +5,9 @@ const app = express();
 const PORT = process.env.PORT || 8080;
 const MONGODB_CONNECTION_STRING = process.env.MONGODB_CONNECTION_STRING;
 
+// Express Body Parser Middleware
+app.use(express.json());
+
 // Import routes
 const indexRouter = require('./routes/index');
 const apiRouter = require('./routes/api');
