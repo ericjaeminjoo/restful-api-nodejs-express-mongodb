@@ -4,6 +4,10 @@ const express = require('express');
 const app = express();
 const PORT = process.env.PORT || 8080;
 
+// Import routes
+const coursesRoute = require('./routes/courses.js');
+app.use('/courses', coursesRoute);
+
 // Connect to db
 mongoose.connect(
   `${process.env.DB_CONNECTION}`,
