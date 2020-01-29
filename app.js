@@ -19,8 +19,8 @@ mongoose
   })
   .then(() => {
     console.log('Connected to MongoDB Cluster Database');
-    console.log('App is running... \n');
-    console.log('Press CTRL + C to stop the process. \n');
+    console.log('App is running...');
+    console.log('Press CTRL + C to stop the process.');
   })
   .catch((err) => {
     console.error('Error has occurred ->', err.message);
