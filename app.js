@@ -19,7 +19,8 @@ app.use('/api', apiRouter);
 mongoose
   .connect(`${MONGODB_CONNECTION_STRING}`, {
     useNewUrlParser: true,
-    useUnifiedTopology: true
+    useUnifiedTopology: true,
+    useCreateIndex: true
   })
   .then(() => {
     console.log('Connected to MongoDB Cluster Database');
