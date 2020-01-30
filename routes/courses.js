@@ -8,7 +8,8 @@ router.get('/', async (req, res) => {
     const courses = await Course.find();
     console.log('Successfully queried all courses from database!');
     res.statusCode = 200;
-    return res.json(courses);
+    res.json(courses);
+    return;
   } catch (err) {
     console.log(
       `
@@ -18,7 +19,8 @@ router.get('/', async (req, res) => {
       err
     );
     res.statusCode = 400;
-    return res.json({ message: err });
+    res.json({ message: err });
+    return;
   }
 });
 
@@ -30,7 +32,8 @@ router.get('/:courseId', async (req, res) => {
     const course = await Course.findById(courseId);
     console.log(`The query of course id <${courseId} was successful!`);
     res.statusCode = 200;
-    return res.json(course);
+    res.json(course);
+    return;
   } catch (err) {
     console.log(
       `
@@ -40,7 +43,8 @@ router.get('/:courseId', async (req, res) => {
       err
     );
     res.statusCode = 400;
-    return res.json({ message: err });
+    res.json({ message: err });
+    return;
   }
 });
 
@@ -59,7 +63,8 @@ router.post('/', async (req, res) => {
     const savedCourse = await course.save();
     console.log('New course data has been saved successfully!');
     res.statusCode = 201;
-    return res.json(savedCourse);
+    res.json(savedCourse);
+    return;
   } catch (err) {
     console.log(
       `
@@ -69,7 +74,8 @@ router.post('/', async (req, res) => {
       err
     );
     res.statusCode = 400;
-    return res.json({ message: err });
+    res.json({ message: err });
+    return;
   }
 });
 
@@ -94,7 +100,8 @@ router.patch('/:courseId', async (req, res) => {
     );
     console.log('Updated course data successfully!');
     res.statusCode = 201;
-    return res.end();
+    res.end();
+    return;
   } catch (err) {
     console.log(
       `
@@ -104,7 +111,8 @@ router.patch('/:courseId', async (req, res) => {
       err
     );
     res.statusCode = 400;
-    return res.json({ message: err });
+    res.json({ message: err });
+    return;
   }
 });
 
@@ -116,7 +124,8 @@ router.delete('/:courseId', async (req, res) => {
     const course = await Course.deleteOne({ _id: courseId });
     console.log('Successfully deleted course from database!');
     res.statusCode = 200;
-    return res.end();
+    res.end();
+    return;
   } catch (err) {
     console.log(
       `
@@ -126,7 +135,8 @@ router.delete('/:courseId', async (req, res) => {
       err
     );
     res.statusCode = 400;
-    return res.json({ message: err });
+    res.json({ message: err });
+    return;
   }
 });
 

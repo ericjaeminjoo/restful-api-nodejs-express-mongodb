@@ -1,8 +1,19 @@
 const express = require('express');
 const router = express.Router();
 const User = require('../models/User');
+const { registerValidation } = require('../validation');
 
 router.post('/', async (req, res) => {
+  // Validate input user information based on register validation schema
+  const validate = registerValidation.validate(req.body);
+  if (validate.error)
+    return res.status(500).send({ message: validate.error.details[0].message });
+
+  // Check if user exists in database
+  const userExist = await User.findOne({ email: req.body.email });
+  if (userExist)
+    return res.status(400).send('User already exists in the database.');
+
   const user = new User({
     name: req.body.name,
     email: req.body.email,
@@ -11,9 +22,10 @@ router.post('/', async (req, res) => {
 
   try {
     const savedUser = await user.save();
-    console.log('New course data has been saved successfully!');
+    console.log('New user data has been saved successfully!');
     res.statusCode = 201;
-    return res.json(savedUser);
+    res.json(savedUser);
+    return;
   } catch (err) {
     console.log(
       `
@@ -23,7 +35,8 @@ router.post('/', async (req, res) => {
       err
     );
     res.statusCode = 400;
-    return res.json({ message: err });
+    res.json({ message: err });
+    return;
   }
 });
 
