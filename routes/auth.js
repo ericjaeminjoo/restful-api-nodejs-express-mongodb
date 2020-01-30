@@ -1,14 +1,14 @@
 const express = require('express');
 const router = express.Router();
 const User = require('../models/User');
-const { registerValidation } = require('../validation');
+const { registerValidation, loginValidation } = require('../validation');
 const bcrypt = require('bcryptjs');
 
-router.post('/', async (req, res) => {
+router.post('/register', async (req, res) => {
   // Validate input user information based on register validation schema
   const validate = registerValidation.validate(req.body);
   if (validate.error)
-    return res.status(500).send({ message: validate.error.details[0].message });
+    return res.status(400).send({ message: validate.error.details[0].message });
 
   // Check if user exists in database
   const userExist = await User.findOne({ email: req.body.email });
@@ -43,6 +43,23 @@ router.post('/', async (req, res) => {
     res.json({ message: err });
     return;
   }
+});
+
+router.post('/login', async (req, res) => {
+  // Validate input user information based on login validation schema
+  const validate = loginValidation.validate(req.body);
+  if (validate.error)
+    return res.status(400).send({ message: validate.error.details[0].message });
+
+  // Check if user exists in database
+  const user = await User.findOne({ email: req.body.email });
+  if (!user) return res.status(400).send('Email or password is incorrect!');
+
+  // Check if user input password versus hashed password from database are correct
+  const validPassword = await bcrypt.compare(req.body.password, user.password);
+  if (!validPassword) return res.status(400).send('Invalid email or password.');
+
+  res.send('Successfully logged in!');
 });
 
 module.exports = router;
