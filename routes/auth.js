@@ -3,6 +3,7 @@ const router = express.Router();
 const User = require('../models/User');
 const { registerValidation, loginValidation } = require('../validation');
 const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
 
 router.post('/register', async (req, res) => {
   // Validate input user information based on register validation schema
@@ -58,6 +59,11 @@ router.post('/login', async (req, res) => {
   // Check if user input password versus hashed password from database are correct
   const validPassword = await bcrypt.compare(req.body.password, user.password);
   if (!validPassword) return res.status(400).send('Invalid email or password.');
+
+  // Generate and assign jsonwebtoken
+  const token = jwt.sign({ _id: user._id }, process.env.JWT_SECRET);
+  res.header('jwt-auth-token', token);
+  console.log(`Use this token to test with private admin route: ${token}`);
 
   res.send('Successfully logged in!');
 });

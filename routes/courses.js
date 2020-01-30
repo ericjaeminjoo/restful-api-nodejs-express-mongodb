@@ -12,7 +12,7 @@ router.get('/', async (req, res) => {
     return;
   } catch (err) {
     console.log(
-      `
+      ` 
             *******************************************************************************
             *     ERROR OCCURRED - COULD NOT QUERY ALL COURSES, CHECK OUT ERROR BELOW     *
             *******************************************************************************\n`,

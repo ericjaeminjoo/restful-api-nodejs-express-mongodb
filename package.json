@@ -15,6 +15,9 @@
     "bcryptjs": "^2.4.3",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
-    "mongoose": "^5.8.10"
+    "install": "^0.13.0",
+    "jsonwebtoken": "^8.5.1",
+    "mongoose": "^5.8.10",
+    "npm": "^6.13.7"
   }
 }
