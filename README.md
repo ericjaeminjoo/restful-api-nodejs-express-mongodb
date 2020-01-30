@@ -1,6 +1,6 @@
 # A self-learning project of building a RESTful API.
 
-Node.js powered RESTful API using Express.js & MongoDB. Along with API authentication using JWT (JSON Web Token), data validation with @hpai/Joi, and bcryptjs for hashing passwords.
+Powered by Node.js, Express.js & MongoDB with API authentication using JWT (JSON Web Token), data validation with @hpai/Joi, and bcryptjs for hashing passwords.
 
 ## Routes
 
